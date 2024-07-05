@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'ty
 import { University } from 'src/university/entities/university.entity';
 import { Year } from 'src/year/entities/year.entity';
 import { Student } from 'src/students/entities/student.entity';
+import { Subject } from 'src/subject/entities/subject.entity';
 
 @Entity()
 export class Career {
@@ -22,4 +23,7 @@ export class Career {
 
   @OneToMany(() => Student, student => student.career)
   students: Student[]; 
+
+  @OneToMany(() => Subject, subject => subject.career) 
+  subjects: Subject[];
 }

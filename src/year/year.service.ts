@@ -36,8 +36,8 @@ export class YearService {
         return new HttpException('The number of years cannot be greater than the length of the career.', HttpStatus.CONFLICT);
       }
 
-      const newOrder = this.yearRepository.create({...createYearDto, career:career});
-      return this.yearRepository.save(newOrder);
+      const newYear = this.yearRepository.create({...createYearDto, career:career});
+      return this.yearRepository.save(newYear);
     } catch (error) {
       return new HttpException('INTERNAL SERVER ERROR', HttpStatus.INTERNAL_SERVER_ERROR);
     }

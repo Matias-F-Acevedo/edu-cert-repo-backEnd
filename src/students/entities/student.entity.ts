@@ -14,7 +14,7 @@ export class Student {
   @Column()
   lastName: string;
 
-  @Column()
+  @Column({unique:true})
   identificationNumber: string;
 
   @Column()

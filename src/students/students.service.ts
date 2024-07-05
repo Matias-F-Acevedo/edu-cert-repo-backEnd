@@ -4,26 +4,53 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Student } from './entities/student.entity';
+import { Career } from 'src/career/entities/career.entity';
 
 @Injectable()
 export class StudentsService {
   constructor(
     @InjectRepository(Student)
     private studentRepository: Repository<Student>,
+    @InjectRepository(Career)
+    private careerRepository: Repository<Career>,
   ) {}
 
   async create(createStudentDto: CreateStudentDto) {
     try {
+
+      const careerFound = await this.careerRepository.findOne({
+        where: { id: createStudentDto.career},
+      });
+      if (!careerFound){
+        return new HttpException(
+          'Career does not exist',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
       const studentFound = await this.studentRepository.findOne({
         where: { identificationNumber: createStudentDto.identificationNumber },
       });
+      if (studentFound) {
+        return new HttpException(
+          'This identificationNumber is registered',
+          HttpStatus.CONFLICT,
+        );
+      }
 
-      if (studentFound)
-        throw new Error('This identificationNumber is registered');
-      const newStudent = this.studentRepository.create({ ...createStudentDto });
 
+      const studentFoundByEmail = await this.studentRepository.findOne({
+        where: { email: createStudentDto.email },
+      });
+      if (studentFoundByEmail) {
+        return new HttpException(
+          'This email is registered',
+          HttpStatus.CONFLICT,
+        );
+      }
+
+      const newStudent = this.studentRepository.create({ ...createStudentDto, career:careerFound });
       const newStudentSave = await this.studentRepository.save(newStudent);
-
       return newStudentSave;
     } catch (error) {
       return new HttpException('Student already exists', HttpStatus.CONFLICT);

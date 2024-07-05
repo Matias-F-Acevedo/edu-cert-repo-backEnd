@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { IsString, MaxLength, MinLength } from 'class-validator';
+import { IsNumber, IsPositive, IsString, MaxLength, MinLength } from 'class-validator';
 
 
 export class CreateStudentDto {
@@ -21,6 +21,18 @@ export class CreateStudentDto {
     @MinLength(7)
     @MaxLength(9)
     identificationNumber: string;
+
+    @Expose()
+    @IsString()
+    @MinLength(7)
+    @MaxLength(254)
+    email:string;
+
+    @Expose()
+    @IsNumber()
+    @IsPositive()
+    career:number;
+
 }
 
 

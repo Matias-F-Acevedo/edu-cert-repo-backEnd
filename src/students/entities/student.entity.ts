@@ -13,9 +13,6 @@ export class Student {
   @Column()
   lastName: string;
 
-  @Column({ unique: true })
-  email: string;
-
-  @Column('date')
-  enrollmentDate: string;
+  @Column()
+  identificationNumber: string;
 }

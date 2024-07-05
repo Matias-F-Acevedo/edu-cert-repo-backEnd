@@ -2,6 +2,13 @@ import { Module } from '@nestjs/common';
 import { StudentsModule } from './students/students.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CertificateModule } from './certificate/certificate.module';
+import { UniversityModule } from './university/university.module';
+import { CareerModule } from './career/career.module';
+import { YearModule } from './year/year.module';
+import { SubjectModule } from './subject/subject.module';
+import { CorrelativeModule } from './correlative/correlative.module';
+import { ProfessorModule } from './professor/professor.module';
+import { ExamModule } from './exam/exam.module';
 
 @Module({
   imports: [
@@ -17,6 +24,13 @@ import { CertificateModule } from './certificate/certificate.module';
     }),
     StudentsModule,
     CertificateModule,
+    UniversityModule,
+    CareerModule,
+    YearModule,
+    SubjectModule,
+    CorrelativeModule,
+    ProfessorModule,
+    ExamModule,
   ],
   controllers: [],
   providers: [],

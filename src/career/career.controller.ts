@@ -22,13 +22,16 @@ export class CareerController {
     return this.careerService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCareerDto: UpdateCareerDto) {
-    return this.careerService.update(+id, updateCareerDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateCareerDto: UpdateCareerDto) {
+  //   return this.careerService.update(+id, updateCareerDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.careerService.remove(+id);
   }
+
+
+  
 }

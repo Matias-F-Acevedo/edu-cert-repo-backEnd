@@ -22,10 +22,10 @@ export class UniversityController {
     return this.universityService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUniversityDto: UpdateUniversityDto) {
-    return this.universityService.update(+id, updateUniversityDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateUniversityDto: UpdateUniversityDto) {
+  //   return this.universityService.update(+id, updateUniversityDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

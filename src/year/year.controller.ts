@@ -22,10 +22,10 @@ export class YearController {
     return this.yearService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateYearDto: UpdateYearDto) {
-    return this.yearService.update(+id, updateYearDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateYearDto: UpdateYearDto) {
+  //   return this.yearService.update(+id, updateYearDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

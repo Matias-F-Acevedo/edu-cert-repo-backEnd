@@ -11,6 +11,9 @@ export class Professor {
 
   @Column()
   lastName: string;
+  
+  @Column({unique:true})
+  identificationNumber: string;
 
   @Column()
   email: string;

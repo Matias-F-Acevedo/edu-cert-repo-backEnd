@@ -53,7 +53,10 @@ export class StudentsService {
       const newStudentSave = await this.studentRepository.save(newStudent);
       return newStudentSave;
     } catch (error) {
-      return new HttpException('Student already exists', HttpStatus.CONFLICT);
+      return new HttpException(
+        'INTERNAL SERVER ERROR',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 

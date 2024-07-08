@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import {IsNumber, IsPositive, IsString, MaxLength, MinLength} from 'class-validator';
+import {IsNumber, IsOptional, IsPositive, IsString, MaxLength, MinLength} from 'class-validator';
 
 export class CreateSubjectDto {
     @Expose()
@@ -17,4 +17,16 @@ export class CreateSubjectDto {
     @IsNumber()
     @IsPositive()
     year: number;
+
+    @Expose()
+    @IsNumber()
+    @IsPositive()
+    professorId: number;
+
+    
+    @Expose()
+    @IsOptional()
+    @IsNumber()
+    @IsPositive()
+    optionalProfessorId?: number;
 }

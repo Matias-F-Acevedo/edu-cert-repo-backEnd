@@ -6,6 +6,7 @@ import { Subject } from './entities/subject.entity';
 import { Repository } from 'typeorm';
 import { Year } from 'src/year/entities/year.entity';
 import { Career } from 'src/career/entities/career.entity';
+import { Professor } from 'src/professor/entities/professor.entity';
 
 @Injectable()
 export class SubjectService {
@@ -16,12 +17,42 @@ export class SubjectService {
     private yearRepository: Repository<Year>,
     @InjectRepository(Career)
     private careerRepository: Repository<Career>,
+    @InjectRepository(Professor)
+    private professorRepository: Repository<Professor>,
   ) {}
 
   async create(
     createSubjectDto: CreateSubjectDto,
   ): Promise<HttpException | Subject> {
     try {
+      const professorFound = await this.professorRepository.findOne({
+        where: { id: createSubjectDto.professorId },
+      });
+
+      if (!professorFound) {
+        return new HttpException('Professor not found', HttpStatus.NOT_FOUND);
+      }
+
+      if (
+        createSubjectDto.professorId == createSubjectDto.optionalProfessorId
+      ) {
+        return new HttpException(
+          'The optional teacher cannot be the same as the main teacher.',
+          HttpStatus.CONFLICT,
+        );
+      }
+
+      let optionalProfessorFound: Professor = null;
+      if (createSubjectDto.optionalProfessorId) {
+        optionalProfessorFound = await this.professorRepository.findOne({
+          where: { id: createSubjectDto.optionalProfessorId },
+        });
+  
+        if (!optionalProfessorFound) {
+          return new HttpException('Optional professor not found', HttpStatus.NOT_FOUND);
+        }
+      }
+
       const yearFound = await this.yearRepository.findOne({
         where: { id: createSubjectDto.year },
       });
@@ -54,7 +85,11 @@ export class SubjectService {
         ...createSubjectDto,
         year: yearFound,
         career: careerFound,
-      });
+        professor: professorFound,
+        optionalProfessor: optionalProfessorFound
+
+      })
+      
       return this.subjectRepository.save(newSubject);
     } catch (error) {
       return new HttpException(
@@ -67,7 +102,7 @@ export class SubjectService {
   async findAll(): Promise<HttpException | Subject[]> {
     try {
       const subject = await this.subjectRepository.find({
-        relations: ['year', 'career'],
+        relations: ['year', 'career', 'professor'],
       });
       return subject;
     } catch (error) {
@@ -82,7 +117,7 @@ export class SubjectService {
     try {
       const subject = await this.subjectRepository.findOne({
         where: { id: id },
-        relations: ['year', 'career'],
+        relations: ['year', 'career', 'professor'],
       });
 
       if (!subject) {

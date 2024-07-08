@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Year } from 'src/year/entities/year.entity';
 import { Subject } from './entities/subject.entity';
 import { Career } from 'src/career/entities/career.entity';
+import { Professor } from 'src/professor/entities/professor.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Subject,Year,Career])],
+  imports: [TypeOrmModule.forFeature([Subject,Year,Career,Professor])],
   controllers: [SubjectController],
   providers: [SubjectService],
 })

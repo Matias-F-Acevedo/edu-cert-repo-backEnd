@@ -9,6 +9,7 @@ import { SubjectModule } from './subject/subject.module';
 import { CorrelativeModule } from './correlative/correlative.module';
 import { ProfessorModule } from './professor/professor.module';
 import { ExamModule } from './exam/exam.module';
+import { AssistanceExamModule } from './assistance-exam/assistance-exam.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ExamModule } from './exam/exam.module';
     CorrelativeModule,
     ProfessorModule,
     ExamModule,
+    AssistanceExamModule,
   ],
   controllers: [],
   providers: [],

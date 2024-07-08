@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { Career } from 'src/career/entities/career.entity';
 import { Exam } from 'src/exam/entities/exam.entity';
+import { AssistanceExam } from 'src/assistance-exam/entities/assistance-exam.entity';
 
 
 @Entity()
@@ -23,7 +24,10 @@ export class Student {
   @ManyToOne(() => Career, career => career.students)
   career: Career;
 
-  @ManyToMany(() => Exam)
-  @JoinTable()
-  exams: Exam[];
-}
+  @OneToMany(() => AssistanceExam, AssistanceExam => AssistanceExam.student)
+  AssistanceExams: AssistanceExam[];
+
+  // @ManyToMany(() => Exam)
+  // @JoinTable()
+  // exams: Exam[];
+}   

@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'ty
 import { Subject } from 'src/subject/entities/subject.entity';
 import { Professor } from 'src/professor/entities/professor.entity';
 import { AssistanceExam } from 'src/assistance-exam/entities/assistance-exam.entity';
+import { ExamRegistration } from 'src/exam-registration/entities/exam-registration.entity';
 
 
 @Entity()
@@ -20,4 +21,7 @@ export class Exam {
 
   @OneToMany(() => AssistanceExam, assistanceExam => assistanceExam.exam)
   assistanceExams: AssistanceExam[];
+
+  @OneToMany(() => ExamRegistration, examRegistration => examRegistration.exam)
+  examRegistrations: ExamRegistration[];
 }

@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTabl
 import { Career } from 'src/career/entities/career.entity';
 import { Exam } from 'src/exam/entities/exam.entity';
 import { AssistanceExam } from 'src/assistance-exam/entities/assistance-exam.entity';
+import { ExamRegistration } from 'src/exam-registration/entities/exam-registration.entity';
 
 
 @Entity()
@@ -26,6 +27,9 @@ export class Student {
 
   @OneToMany(() => AssistanceExam, AssistanceExam => AssistanceExam.student)
   AssistanceExams: AssistanceExam[];
+
+  @OneToMany(() => ExamRegistration, examRegistration => examRegistration.student)
+  examRegistrations: ExamRegistration[];
 
   // @ManyToMany(() => Exam)
   // @JoinTable()

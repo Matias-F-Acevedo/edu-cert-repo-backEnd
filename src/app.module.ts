@@ -10,6 +10,7 @@ import { CorrelativeModule } from './correlative/correlative.module';
 import { ProfessorModule } from './professor/professor.module';
 import { ExamModule } from './exam/exam.module';
 import { AssistanceExamModule } from './assistance-exam/assistance-exam.module';
+import { ExamRegistrationModule } from './exam-registration/exam-registration.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AssistanceExamModule } from './assistance-exam/assistance-exam.module';
     ProfessorModule,
     ExamModule,
     AssistanceExamModule,
+    ExamRegistrationModule,
   ],
   controllers: [],
   providers: [],

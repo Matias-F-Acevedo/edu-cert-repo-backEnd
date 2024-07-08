@@ -22,10 +22,10 @@ export class ExamController {
     return this.examService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExamDto: UpdateExamDto) {
-    return this.examService.update(+id, updateExamDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateExamDto: UpdateExamDto) {
+  //   return this.examService.update(+id, updateExamDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

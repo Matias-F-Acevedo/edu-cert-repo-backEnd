@@ -22,10 +22,10 @@ export class CorrelativeController {
     return this.correlativeService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCorrelativeDto: UpdateCorrelativeDto) {
-    return this.correlativeService.update(+id, updateCorrelativeDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateCorrelativeDto: UpdateCorrelativeDto) {
+  //   return this.correlativeService.update(+id, updateCorrelativeDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

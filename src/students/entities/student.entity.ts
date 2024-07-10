@@ -22,6 +22,24 @@ export class Student {
   @Column()
   email: string;
 
+  @Column()
+  dateOfBirth: Date;
+
+  @Column({ nullable: true })
+  phoneNumber: string;
+
+  @Column()
+  yearOfAdmission: string;
+
+  @Column({ nullable: true })
+  gender: string;
+
+  @Column({ nullable: true })
+  birthplace: String;
+
+  @Column({ nullable: true })
+  nationality: string;
+
   @ManyToOne(() => Career, career => career.students)
   career: Career;
 

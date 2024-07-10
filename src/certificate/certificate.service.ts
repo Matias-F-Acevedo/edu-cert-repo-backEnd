@@ -4,15 +4,20 @@ import { Repository } from 'typeorm';
 import { Student } from 'src/students/entities/student.entity';
 import { promises as fsPromises } from 'fs';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { AssistanceExam } from 'src/assistance-exam/entities/assistance-exam.entity';
+
+
 
 @Injectable()
 export class CertificateService {
   constructor(
     @InjectRepository(Student)
     private studentRepository: Repository<Student>,
+    @InjectRepository(AssistanceExam)
+    private assistanceExamRepository: Repository<AssistanceExam>,
   ) {}
 
-  async generateCertificate(studentId: number) {
+  async generateCertificate(studentId: number, examId:number) {
     try {
       // 1. Obtener los datos del estudiante desde la base de datos
       const student = await this.studentRepository.findOne({
@@ -25,6 +30,17 @@ export class CertificateService {
           HttpStatus.NOT_FOUND,
         );
       }
+
+      const assistanceExam = await this.assistanceExamRepository.findOne({
+        where: {present:true, student:{id:studentId}, exam:{id:examId}},relations:['exam', 'exam.subject']
+      });
+      if (!assistanceExam) {
+        return new HttpException(
+          'No exam or exam assistance was found.',
+          HttpStatus.CONFLICT,
+        );
+      }
+
 
       // 2. Cargar la plantilla PDF
       const templatePath =
@@ -46,11 +62,11 @@ export class CertificateService {
 
       // Obtener la fecha actual en formato dd/mm/yyyy
       const today = new Date();
-      const formattedDate = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
+      const formattedDate = `${assistanceExam.exam.date.getDate()}/${assistanceExam.exam.date.getMonth() + 1}/${assistanceExam.exam.date.getFullYear()}`;
       const formattedDNI = formatDNI(student.identificationNumber);
       // Texto con datos variables
       const additionalText = `Por la presente, se deja constancia que ${student.lastName.toLocaleUpperCase()} ${student.firstName.toLocaleUpperCase()} D.N.I ${formattedDNI}
-    Ha asistido el ${formattedDate} a la mesa examinadora {MATERIA}
+    Ha asistido el ${formattedDate} a la mesa examinadora ${assistanceExam.exam.subject.name}
     A pedido del interesado/a y para presentar ante quien corresponda,
     se extiende la presente en la ciudad de Benito Juárez a los ${today.getDate()} días del mes de ${getMonthName(today.getMonth() + 1)} de ${today.getFullYear()}.`;
 
@@ -77,7 +93,7 @@ export class CertificateService {
       const lines = additionalText.split('\n');
       // Calcular posición inicial para el texto en la parte superior de la página
       const { width, height } = page.getSize();
-      const startY = height - 187; // Posición vertical desde la parte superior
+      const startY = height - 184; // Posición vertical desde la parte superior
 
       lines.forEach((line, index) => {
         const yPosition = startY - index * 19; // Espacio entre líneas es 19 (tamaño de fuente + espacio)
@@ -98,7 +114,7 @@ export class CertificateService {
       });
 
       // 4. Guardar el PDF generado
-      const outputPath = `C:/Users/admin/Desktop/certificadosPdf/generatedCertificate_${student.id}.pdf`; // Ruta para guardar el PDF generado
+      const outputPath = `C:/Users/admin/Desktop/certificadosPdf/${student.lastName.toLocaleUpperCase()}-${student.firstName.toLocaleUpperCase()}-DNI-${student.identificationNumber}-CONSTANCIA-ASISTENCIA-EXAMEN.pdf`; // Ruta para guardar el PDF generado
       const pdfBytes = await pdfDoc.save();
       await fsPromises.writeFile(outputPath, pdfBytes);
 

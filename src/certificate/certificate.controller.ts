@@ -13,14 +13,15 @@ import { Response } from 'express';
 export class CertificateController {
   constructor(private readonly certificateService: CertificateService) {}
 
-  @Get(':studentId')
+  @Get(':studentId/:examId')
   async generateCertificate(
-    @Param('studentId') studentId: number,
+    @Param('studentId') studentId: string,
+    @Param('examId') examId: string,
     @Res() res: Response,
   ) {
     try {
       const filePath =
-        await this.certificateService.generateCertificate(studentId);
+        await this.certificateService.generateCertificate(+studentId,+examId);
 
       if (filePath instanceof HttpException) {
         throw new HttpException(
@@ -28,11 +29,14 @@ export class CertificateController {
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
+
       res.sendFile(filePath, (err) => {
         if (err) {
           throw new HttpException('File not found', HttpStatus.NOT_FOUND);
         }
       });
+
+
     } catch (error) {
       throw new HttpException(
         'Internal Server Error',

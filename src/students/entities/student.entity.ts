@@ -40,6 +40,30 @@ export class Student {
   @Column({ nullable: true })
   nationality: string;
 
+  @Column({ nullable: true })
+  documentType:string;
+
+  @Column({ nullable: true })
+  countryDocument:string;
+
+  @Column({ nullable: true })
+  cuil:string;
+
+  @Column({ nullable: true })
+  registrationDate:Date;
+
+  @Column({ nullable: true })
+  cohorte:string;
+
+  @Column({ nullable: true })
+  affiliate:string;
+
+  @Column({ nullable: true })
+  affiliateNumber:string;
+
+  @Column({ nullable: true })
+  title:string;
+  
   @ManyToOne(() => Career, career => career.students)
   career: Career;
 

@@ -34,7 +34,12 @@ export class SubjectService {
       }
 
       if (
-        createSubjectDto.professorId == createSubjectDto.optionalProfessorId
+        createSubjectDto.professorId ==
+          createSubjectDto.optionalSecondProfessorId ||
+        createSubjectDto.professorId ==
+          createSubjectDto.optionalThirdProfessorId ||
+        createSubjectDto.optionalSecondProfessorId ==
+          createSubjectDto.optionalThirdProfessorId
       ) {
         return new HttpException(
           'The optional teacher cannot be the same as the main teacher.',
@@ -43,13 +48,30 @@ export class SubjectService {
       }
 
       let optionalProfessorFound: Professor = null;
-      if (createSubjectDto.optionalProfessorId) {
+      if (createSubjectDto.optionalSecondProfessorId) {
         optionalProfessorFound = await this.professorRepository.findOne({
-          where: { id: createSubjectDto.optionalProfessorId },
+          where: { id: createSubjectDto.optionalSecondProfessorId },
         });
-  
+
         if (!optionalProfessorFound) {
-          return new HttpException('Optional professor not found', HttpStatus.NOT_FOUND);
+          return new HttpException(
+            'Optional Second professor not found',
+            HttpStatus.NOT_FOUND,
+          );
+        }
+      }
+
+      let optionalThirdProfessor: Professor = null;
+      if (createSubjectDto.optionalThirdProfessorId) {
+        optionalThirdProfessor = await this.professorRepository.findOne({
+          where: { id: createSubjectDto.optionalThirdProfessorId },
+        });
+
+        if (!optionalThirdProfessor) {
+          return new HttpException(
+            'Optional Third professor not found',
+            HttpStatus.NOT_FOUND,
+          );
         }
       }
 
@@ -86,10 +108,10 @@ export class SubjectService {
         year: yearFound,
         career: careerFound,
         professor: professorFound,
-        optionalProfessor: optionalProfessorFound
+        optionalSecondProfessor: optionalProfessorFound,
+        optionalThirdProfessor:optionalThirdProfessor
+      });
 
-      })
-      
       return this.subjectRepository.save(newSubject);
     } catch (error) {
       return new HttpException(

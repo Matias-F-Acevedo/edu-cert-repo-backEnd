@@ -47,19 +47,6 @@ export class CreateStudentDto {
   @MaxLength(4)
   yearOfAdmission: string;
 
-  @IsEnum(Gender)
-  gender?: Gender;
-
-  @Expose()
-  @IsOptional()
-  @IsString()
-  birthplace?: string;
-
-  @Expose()
-  @IsOptional()
-  @IsString()
-  nationality?: string;
-
   @Expose()
   @IsString()
   @MinLength(7)
@@ -76,4 +63,52 @@ export class CreateStudentDto {
   @IsNumber()
   @IsPositive()
   career: number;
+
+  @IsEnum(Gender)
+  gender?: Gender;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  birthplace?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  nationality?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  documentType?:string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  countryDocument?:string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  cuil?:string;
+
+  @Expose()
+  @IsOptional()
+  @IsDateString()
+  registrationDate?:Date;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  cohorte?:string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  affiliate?:string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  affiliateNumber?:string;
 }

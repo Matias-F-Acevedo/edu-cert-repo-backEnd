@@ -5,7 +5,7 @@ export class CreateSubjectDto {
     @Expose()
     @IsString()
     @MinLength(3)
-    @MaxLength(50)
+    @MaxLength(255)
     name: string;
 
     @Expose()
@@ -28,5 +28,11 @@ export class CreateSubjectDto {
     @IsOptional()
     @IsNumber()
     @IsPositive()
-    optionalProfessorId?: number;
+    optionalSecondProfessorId?: number;
+
+    @Expose()
+    @IsOptional()
+    @IsNumber()
+    @IsPositive()
+    optionalThirdProfessorId?: number;
 }

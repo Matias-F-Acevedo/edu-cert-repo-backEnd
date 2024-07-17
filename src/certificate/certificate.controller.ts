@@ -47,15 +47,14 @@ export class CertificateController {
 
 
 
-  @Get('/regular-student/:studentId/:examId')
+  @Get('/regular-student/:studentId')
   async generateCertificateRegular(
     @Param('studentId') studentId: string,
-    @Param('examId') examId: string,
     @Res() res: Response,
   ) {
     try {
       const filePath =
-        await this.certificateService.generateCertificateRegular(+studentId,+examId);
+        await this.certificateService.generateCertificateRegular(+studentId);
 
       if (filePath instanceof HttpException) {
         throw new HttpException(

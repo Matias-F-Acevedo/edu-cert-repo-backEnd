@@ -59,10 +59,12 @@ export class StudentsService {
       );
     }
   }
-
+ 
   async findAll() {
     try {
-      const students = await this.studentRepository.find();
+      const students = await this.studentRepository.find({
+        relations: ['career'],
+      });
       return students;
     } catch (error) {
       return new HttpException(
@@ -75,7 +77,7 @@ export class StudentsService {
   async findOne(id: number) {
     try {
       const student = await this.studentRepository.findOne({
-        where: { id: id },
+        where: { id: id }, relations: ['career']
       });
       if (!student) {
         return new HttpException(

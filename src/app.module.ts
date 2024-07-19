@@ -11,6 +11,8 @@ import { ProfessorModule } from './professor/professor.module';
 import { ExamModule } from './exam/exam.module';
 import { AssistanceExamModule } from './assistance-exam/assistance-exam.module';
 import { ExamRegistrationModule } from './exam-registration/exam-registration.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -35,6 +37,8 @@ import { ExamRegistrationModule } from './exam-registration/exam-registration.mo
     ExamModule,
     AssistanceExamModule,
     ExamRegistrationModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ExamRegistrationService } from './exam-registration.service';
 import { CreateExamRegistrationDto } from './dto/create-exam-registration.dto';
 import { UpdateExamRegistrationDto } from './dto/update-exam-registration.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+
+@UseGuards(AuthGuard)
 @Controller('exam-registration')
 export class ExamRegistrationController {
   constructor(private readonly examRegistrationService: ExamRegistrationService) {}

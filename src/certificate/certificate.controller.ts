@@ -5,10 +5,14 @@ import {
   Res,
   HttpException,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { CertificateService } from './certificate.service';
 import { Response } from 'express';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+
+@UseGuards(AuthGuard)
 @Controller('certificates')
 export class CertificateController {
   constructor(private readonly certificateService: CertificateService) {}

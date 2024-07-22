@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { CorrelativeService } from './correlative.service';
 import { CreateCorrelativeDto } from './dto/create-correlative.dto';
 import { UpdateCorrelativeDto } from './dto/update-correlative.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('correlative')
 export class CorrelativeController {
   constructor(private readonly correlativeService: CorrelativeService) {}

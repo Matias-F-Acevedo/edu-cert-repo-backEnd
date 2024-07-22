@@ -61,7 +61,7 @@ export class AssistanceExamService {
 
   async findAll() {
     try {
-      const assistanceExam = await this.assistanceExamRepository.find({relations:["student", "exam"]});
+      const assistanceExam = await this.assistanceExamRepository.find({relations:["student", "exam","exam.subject"]});
       return assistanceExam;
     } catch (error) {
       return new HttpException(

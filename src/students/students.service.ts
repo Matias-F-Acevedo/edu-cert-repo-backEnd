@@ -17,16 +17,12 @@ export class StudentsService {
 
   async create(createStudentDto: CreateStudentDto) {
     try {
-
-      const careerFound = await this.careerRepository.findOne({
-        where: { id: createStudentDto.career},
-      });
-      if (!careerFound){
-        return new HttpException(
-          'Career does not exist',
-          HttpStatus.NOT_FOUND,
-        );
-      }
+      // const careerFound = await this.careerRepository.findOne({
+      //   where: { id: createStudentDto.career },
+      // });
+      // if (!careerFound) {
+      //   return new HttpException('Career does not exist', HttpStatus.NOT_FOUND);
+      // }
 
       const studentFound = await this.studentRepository.findOne({
         where: { identificationNumber: createStudentDto.identificationNumber },
@@ -38,7 +34,6 @@ export class StudentsService {
         );
       }
 
-
       const studentFoundByEmail = await this.studentRepository.findOne({
         where: { email: createStudentDto.email },
       });
@@ -49,7 +44,23 @@ export class StudentsService {
         );
       }
 
-      const newStudent = this.studentRepository.create({ ...createStudentDto, career:careerFound });
+      // Cargar las carreras desde la base de datos
+      const careers = await this.careerRepository.findByIds(
+        createStudentDto.careers,
+      );
+
+      // Verificar que todas las carreras existen
+      if (careers.length !== createStudentDto.careers.length) {
+        return new HttpException(
+          'One or more careers do not exist',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      const newStudent = this.studentRepository.create({
+        ...createStudentDto,
+        careers: careers,
+      });
       const newStudentSave = await this.studentRepository.save(newStudent);
       return newStudentSave;
     } catch (error) {
@@ -59,11 +70,11 @@ export class StudentsService {
       );
     }
   }
- 
+
   async findAll() {
     try {
       const students = await this.studentRepository.find({
-        relations: ['career'],
+        relations: ['careers'],
       });
       return students;
     } catch (error) {
@@ -77,7 +88,8 @@ export class StudentsService {
   async findOne(id: number) {
     try {
       const student = await this.studentRepository.findOne({
-        where: { id: id }, relations: ['career']
+        where: { id: id },
+        relations: ['careers'],
       });
       if (!student) {
         return new HttpException(

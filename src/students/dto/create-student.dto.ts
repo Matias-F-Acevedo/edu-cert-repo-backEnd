@@ -1,7 +1,11 @@
 import { Expose } from 'class-transformer';
 import {
+  ArrayNotEmpty,
+  IsArray,
   IsDateString,
   IsEnum,
+  IsInt,
+  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsPositive,
@@ -59,10 +63,16 @@ export class CreateStudentDto {
   @MaxLength(254)
   email: string;
 
-  @Expose()
-  @IsNumber()
-  @IsPositive()
-  career: number;
+  // @Expose()
+  // @IsNumber()
+  // @IsPositive()
+  // career: number;
+
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsInt({ each: true })
+  careers: number[]; // Lista de identificadores de carreras
 
   @IsEnum(Gender)
   gender?: Gender;

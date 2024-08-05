@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { Career } from 'src/career/entities/career.entity';
-import { Exam } from 'src/exam/entities/exam.entity';
 import { AssistanceExam } from 'src/assistance-exam/entities/assistance-exam.entity';
 import { ExamRegistration } from 'src/exam-registration/entities/exam-registration.entity';
 
@@ -18,6 +17,9 @@ export class Student {
 
   @Column({unique:true})
   identificationNumber: string;
+  
+  @Column({ nullable: true })
+  address: string;
 
   @Column()
   email: string;
@@ -63,17 +65,22 @@ export class Student {
 
   @Column({ nullable: true })
   title:string;
-  
-  @ManyToOne(() => Career, career => career.students)
-  career: Career;
+
+  @Column({ nullable: true })
+  city:string;
+
+  @ManyToMany(() => Career, career => career.students)
+  @JoinTable()
+  careers: Career[];
+
+
+  // // original:
+  // @ManyToOne(() => Career, career => career.studentss)
+  // career: Career;
 
   @OneToMany(() => AssistanceExam, AssistanceExam => AssistanceExam.student)
   AssistanceExams: AssistanceExam[];
 
   @OneToMany(() => ExamRegistration, examRegistration => examRegistration.student)
   examRegistrations: ExamRegistration[];
-
-  // @ManyToMany(() => Exam)
-  // @JoinTable()
-  // exams: Exam[];
 }   

@@ -114,7 +114,7 @@ export class CertificateService {
   
       // Calcular posición inicial para el texto en la parte superior de la página
       const { width, height } = page.getSize();
-      const startY = height - 180; // Posición vertical desde la parte superior
+      const startY = height - 160; // Posición vertical desde la parte superior
   
       lines.forEach((line, index) => {
         const yPosition = startY - index * 19; // Espacio entre líneas es 19 (tamaño de fuente + espacio)
@@ -145,12 +145,12 @@ export class CertificateService {
   }
   
 
-  async generateCertificateRegular(studentId: number) {
+  async generateCertificateRegular(studentId: number, careerId:number) {
     try {
       // 1. Obtener los datos del estudiante desde la base de datos
       const student = await this.studentRepository.findOne({
         where: { id: studentId },
-        relations: ['career'],
+        relations: ['careers'],
       });
   
       if (!student) {
@@ -181,7 +181,9 @@ export class CertificateService {
       // Obtener la fecha actual en formato dd/mm/yyyy
       const today = new Date();
       const formattedDNI = formatDNI(student.identificationNumber);
-      const careerName = student.career.name.toLocaleUpperCase();
+
+      const career = student.careers.find(c => c.id === careerId);
+      const careerName = career.name.toLocaleUpperCase();
   
       // Función para obtener el nombre del mes a partir del número de mes
       function getMonthName(monthNumber: number): string {

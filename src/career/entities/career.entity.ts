@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, ManyToMany } from 'typeorm';
 import { University } from 'src/university/entities/university.entity';
 import { Year } from 'src/year/entities/year.entity';
 import { Student } from 'src/students/entities/student.entity';
@@ -21,8 +21,13 @@ export class Career {
   @OneToMany(() => Year, year => year.career)
   years: Year[];
 
-  @OneToMany(() => Student, student => student.career)
-  students: Student[]; 
+  // //original:
+  // @OneToMany(() => Student, student => student.career)
+  // students: Student[]; 
+
+
+  @ManyToMany(() => Student, student => student.careers)
+  students: Student[];
 
   @OneToMany(() => Subject, subject => subject.career) 
   subjects: Subject[];

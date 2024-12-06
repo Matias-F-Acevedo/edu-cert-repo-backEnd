@@ -21,7 +21,6 @@ export class CertificateService {
       const student = await this.studentRepository.findOne({
         where: { id: studentId },
       });
-  
       if (!student) {
         return new HttpException(
           'Student does not exist',
@@ -184,6 +183,40 @@ export class CertificateService {
 
       const career = student.careers.find(c => c.id === careerId);
       const careerName = career.name.toLocaleUpperCase();
+
+       // Resolución específica según el careerId
+    let resolution = '0000/00'; // Valor por defecto
+    switch (careerId) {
+      case 1:
+        resolution = '2066/18';
+        break;
+      case 2:
+        resolution = '1164/19';
+        break;
+      case 3:
+        resolution = '2432/09';
+        break;
+      case 4:
+        resolution = '1666/06';
+        break;
+      case 5:
+        resolution = '854/16';
+        break;
+      case 6:
+        resolution = '1221/15';
+        break;
+      case 7:
+        resolution = '205/18';
+        break;
+      case 8:
+        resolution = '1883/99';
+        break;
+      case 9:
+        resolution = '2082/07';
+        break;
+      default:
+        resolution = '0000/00'; // Valor por defecto
+    }
   
       // Función para obtener el nombre del mes a partir del número de mes
       function getMonthName(monthNumber: number): string {
@@ -223,7 +256,8 @@ export class CertificateService {
         // { text: `${formattedDNI}`, bold: true },
         { text: `es alumno/a regular del Instituto Superior del Sudeste DIEGEP Nº 6.400 de la carrera`, bold: false },
         { text: `${careerName}.`, bold: true },
-        { text: `Resolución Nº 2066/18`},
+        // { text: `Resolución Nº 2066/18`},
+        { text: `Resolución Nº ${resolution}`},
         { text: `A pedido del interesado/a y para ser presentado ante quien corresponda,`, bold: false },
         { text: `se extiende la presente en la ciudad de Benito Juárez.`}
       ];
